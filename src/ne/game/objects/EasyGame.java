@@ -40,9 +40,9 @@ public class EasyGame extends BasicGame {
         if (input.isKeyPressed(Input.KEY_ESCAPE)) {
             container.exit();
         }
-        for(MeinUfo u : mUfoList)
+        for(MeinUfo u : mUfoList) {
             u.update(delta);
-
+        }
         crusher.update(delta);
     }
 
