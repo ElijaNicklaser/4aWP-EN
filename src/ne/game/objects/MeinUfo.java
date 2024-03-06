@@ -2,16 +2,20 @@ package ne.game.objects;
 
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
+import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Shape;
 
 import java.util.Random;
 
 public class MeinUfo extends SpielObjekt{
-    private float acceleration =0.001f;
-    private float geschwindigkeit =2;
+    private float acceleration =0.00001f;
+    private float geschwindigkeit =10;
+
+    private Rectangle shape;
     public MeinUfo(int x, int y, Image image) {
         super(x, y, image);
         setRandomPosition();
+        shape = new Rectangle(x, y, image.getWidth(), image.getHeight());
     }
 
     @Override
@@ -21,7 +25,7 @@ public class MeinUfo extends SpielObjekt{
 
     @Override
     public Shape getShape() {
-        return null;
+        return shape;
     }
 
     @Override
@@ -31,8 +35,11 @@ public class MeinUfo extends SpielObjekt{
         this.setRandomPosition();
         }
         this.setY(this.getY()+(int)this.geschwindigkeit);
+        shape.setCenterX(this.getX());
+        shape.setCenterY(this.getY());
+
     }
-    private void setRandomPosition(){
+    public void setRandomPosition(){
         Random r = new Random();
         int ry =0;
         int rx =0;

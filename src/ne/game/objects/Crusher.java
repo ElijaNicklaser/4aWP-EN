@@ -11,7 +11,9 @@ public class Crusher extends SpielObjekt {
     private Input input;
     private Rectangle shape;
 
-    private float acceleration=0.00001f;
+    private float acceleration = 0.0001f;
+    private float speed = 5f;
+    private int direction = 0;
 
 
     public Crusher(int x, int y, Image image, Input input) {
@@ -32,23 +34,35 @@ public class Crusher extends SpielObjekt {
 
     @Override
     public void update(int delta) {
-        boolean pressed = false;
-        if (input.isKeyDown(Input.KEY_A)&&(this.getX() - (int) this.acceleration - this.getWith()/2) > 0) {
-            this.setX(this.getX() - delta);
-            pressed = true;
+        int olddirection = this.direction;
+        if (input.isKeyDown(Input.
+                KEY_A
+        )) {
+            this.setX(this.getX() - (int) this.speed);
+            if ((this.getX() < this.getWith() / 2)) this.setX(this.getWith() / 2);
+            this.direction = -1;
         }
-        if (input.isKeyDown(Input.KEY_D)&&(this.getX() + (int) this.acceleration + this.getWith()/2) < 1024) {
-            this.setX(this.getX() + delta);
-            pressed = true;
+        if (input.isKeyDown(Input.
+                KEY_D
+        )) {
+            this.setX(this.getX() + (int) this.speed);
+            if ((this.getX() > (1024 - this.getWith() / 2))) this.setX(1024 - this.getWith() / 2);
+            this.direction = 1;
         }
-
-        if (pressed){
-            acceleration+= delta;
-            if(acceleration > 10) acceleration=10;
+        if (this.direction == olddirection) {
+            speed += acceleration;
         } else {
-            acceleration = 0.00001f;
+            speed = 20f;
         }
         shape.setCenterX(this.getX());
         shape.setCenterY(this.getY());
     }
+
+    public boolean intersects(Shape shape) {
+        if (shape != null) {
+            return this.getShape().intersects(shape);
+        }
+            return false;
+    }
 }
+
